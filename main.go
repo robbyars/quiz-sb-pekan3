@@ -69,6 +69,6 @@ func main() {
 		api.DELETE("/books/:id", controllers.DeleteBook)
 	}
 
-	// router.Run(":" + os.Getenv("PORT"))
-	router.Run(":8080")
+	router.Run(":" + os.Getenv("PORT"))
+	//router.Run(":8080")
 }
