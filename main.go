@@ -7,6 +7,7 @@ import (
 	"quiz-sb-pekan3/controllers"
 	"quiz-sb-pekan3/database"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
@@ -62,13 +63,13 @@ func main() {
 		api.DELETE("/categories/:id", controllers.DeleteCategory)
 		api.GET("/categories/:id/books", controllers.GetDetailBookbyCategory)
 
-		api.GET("/books", controllers.GetAllBook)
 		api.POST("/books", controllers.InsertBook)
 		api.PUT("/books/:id", controllers.UpdateBook)
 		api.GET("/books/:id", controllers.GetDetailBook)
 		api.DELETE("/books/:id", controllers.DeleteBook)
 	}
-
+	router.GET("/books", controllers.GetAllBook)
 	router.Run(":" + os.Getenv("PORT"))
+	router.Use(cors.Default())
 	//router.Run(":8080")
 }
