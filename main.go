@@ -50,6 +50,14 @@ func main() {
 	database.DBMigrate(DB)
 
 	router := gin.Default()
+
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},                                // Mengizinkan semua origin, Anda bisa menambahkan domain frontend spesifik
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},     // Metode HTTP yang diperbolehkan
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept"}, // Header yang diperbolehkan
+		AllowCredentials: true,                                         // Jika Anda membutuhkan kredensial (misalnya cookies)
+	}))
+
 	api := router.Group("/api")
 
 	api.Use(controllers.BasicAuthMiddleware(DB)) // Menambahkan BasicAuth di grup ini
@@ -70,6 +78,5 @@ func main() {
 	}
 	router.GET("/books", controllers.GetAllBook)
 	router.Run(":" + os.Getenv("PORT"))
-	router.Use(cors.Default())
 	//router.Run(":8080")
 }
